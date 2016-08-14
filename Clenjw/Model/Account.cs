@@ -1,4 +1,7 @@
-﻿using System;
+﻿// lindexi
+// 21:05
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +11,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media;
 using Newtonsoft.Json;
 
 namespace lindexi.uwp.Clenjw.Model
@@ -16,14 +20,25 @@ namespace lindexi.uwp.Clenjw.Model
     {
         public Account()
         {
-
         }
 
-        public List<FileClen> File { set; get; }=new List<FileClen>();
+        public List<FileClen> File
+        {
+            set;
+            get;
+        } = new List<FileClen>();
+
+        public double Font
+        {
+            set;
+            get;
+        }
+
+        //        if (File != null)
+        //    {
+
 
         //    public async Task Read()
-        //    {
-        //        if (File != null)
         //        {
         //            return;
         //        }

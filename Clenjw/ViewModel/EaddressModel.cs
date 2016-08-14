@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using lindexi.uwp.Clenjw.Model;
 
 namespace lindexi.uwp.Clenjw.ViewModel
@@ -63,10 +64,22 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 Progress();
                 //}
             }
-
-
-
         }
+
+        public Visibility AccountVisibility
+        {
+            set
+            {
+                _accountVisibility = value;
+                OnPropertyChanged();
+            }
+            get
+            {
+                return _accountVisibility;
+            }
+        }
+
+        private Visibility _accountVisibility;
 
         private int Np
         {
@@ -76,9 +89,9 @@ namespace lindexi.uwp.Clenjw.ViewModel
 
         public void Up()
         {
+            NpClj();
             var account = AccountGoverment.View.File;
-            account.Poit -= Np;
-
+            int n = account.Poit - Np;
 
             if (account.Poit < 0)
             {
@@ -87,24 +100,33 @@ namespace lindexi.uwp.Clenjw.ViewModel
 
             int length = account.Str.Length - account.Poit;
             length = length > Np ? Np : length;
-            Str = account.Str.Substring(account.Poit, length);
+            Str = account.Str.Substring(n, length);
+            account.Poit = n;
         }
 
 
         public void Progress()
         {
+            NpClj();
             var account = AccountGoverment.View.File;
-            account.Poit += Np;
+            int n = account.Poit + Np;
 
             int length = account.Str.Length - account.Poit;
 
             length = length > Np ? Np : length;
             if (length > 0)
             {
-                Str = account.Str.Substring(account.Poit, length);
+                Str = account.Str.Substring(n, length);
+
+                account.Poit = n;
             }
         }
 
-        
+        private void NpClj()
+        {
+            Width = Window.Current.Bounds.Width;
+
+        }
+
     }
 }

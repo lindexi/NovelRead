@@ -1,4 +1,7 @@
-﻿using System;
+﻿// lindexi
+// 21:04
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,7 +21,37 @@ namespace lindexi.uwp.Clenjw.ViewModel
     {
         public AccountGoverment()
         {
-         
+        }
+
+        public Account Account
+        {
+            set;
+            get;
+        }
+
+
+        public FileClen File
+        {
+            set;
+            get;
+        }
+
+        public static AccountGoverment View
+        {
+            set
+            {
+                _accountGoverment = value;
+            }
+            get
+            {
+                return _accountGoverment ?? (_accountGoverment = new AccountGoverment());
+            }
+        }
+
+        public Frame Frame
+        {
+            set;
+            get;
         }
 
         public void NagitaveAddress()
@@ -30,8 +63,6 @@ namespace lindexi.uwp.Clenjw.ViewModel
         {
             Frame?.Navigate(typeof(Preface));
         }
-
-        public Account Account { set; get; }
 
         public async Task Read()
         {
@@ -47,9 +78,8 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 str = "file.json";
                 Account = await FileJson<Account>(await folder.GetFileAsync(str));
             }
-            catch 
+            catch
             {
-               
             }
 
             if (Account == null)
@@ -92,34 +122,7 @@ namespace lindexi.uwp.Clenjw.ViewModel
             //    {
 
             //    }
-
         }
-
-        private async Task<List<StorageFile>> FileStorageApplicationPermiss()
-        {
-            var folder = new List<StorageFile>();
-
-            foreach (var temp in StorageApplicationPermissions.
-                FutureAccessList.Entries)
-            {
-                folder.Add(await StorageApplicationPermissions.
-                    FutureAccessList.GetFileAsync(temp.Token));
-            }
-
-            for (int i = 0; i < folder.Count; i++)
-            {
-
-                //FileInfo temp = new FileInfo(folder[i].Path);
-                //if (!temp.Exists)
-                //{
-                //    folder.RemoveAt(i);
-                //    i--;
-                //}
-            }
-
-            return folder;
-        }
-
 
 
         public async Task Storage()
@@ -136,7 +139,7 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 StorageFolder folder;
                 try
                 {
-                    folder=await ApplicationData.Current.
+                    folder = await ApplicationData.Current.
                         RoamingFolder.GetFolderAsync(str);
                 }
                 catch
@@ -147,24 +150,47 @@ namespace lindexi.uwp.Clenjw.ViewModel
 
                 str = "file.json";
                 var file = await folder.CreateFileAsync(str, CreationCollisionOption.ReplaceExisting);
-                using (TextWriter stream=new StreamWriter(
+                using (TextWriter stream = new StreamWriter(
                     await file.OpenStreamForWriteAsync()))
                 {
                     var json = JsonSerializer.Create();
-                    json.Serialize(stream,Account);
+                    json.Serialize(stream, Account);
                 }
             }
             catch
             {
-              
             }
+        }
+
+        private async Task<List<StorageFile>> FileStorageApplicationPermiss()
+        {
+            var folder = new List<StorageFile>();
+
+            foreach (var temp in StorageApplicationPermissions.
+                FutureAccessList.Entries)
+            {
+                folder.Add(await StorageApplicationPermissions.
+                    FutureAccessList.GetFileAsync(temp.Token));
+            }
+
+            for (int i = 0; i < folder.Count; i++)
+            {
+                //FileInfo temp = new FileInfo(folder[i].Path);
+                //if (!temp.Exists)
+                //{
+                //    folder.RemoveAt(i);
+                //    i--;
+                //}
+            }
+
+            return folder;
         }
 
         private async Task<T> FileJson<T>(IStorageFile file)
         {
             using (TextReader stream =
-                   new StreamReader(await
-                     file.OpenStreamForReadAsync()))
+                new StreamReader(await
+                    file.OpenStreamForReadAsync()))
             {
                 var json = JsonSerializer.Create();
                 //string str =await stream.ReadToEndAsync();
@@ -172,24 +198,6 @@ namespace lindexi.uwp.Clenjw.ViewModel
             }
         }
 
-
-
-        public FileClen File { set; get; }
-
         private static AccountGoverment _accountGoverment;
-
-        public static AccountGoverment View
-        {
-            set
-            {
-                _accountGoverment = value;
-            }
-            get
-            {
-                return _accountGoverment ?? (_accountGoverment = new AccountGoverment());
-            }
-        }
-
-        public Frame Frame { set; get; }
     }
 }

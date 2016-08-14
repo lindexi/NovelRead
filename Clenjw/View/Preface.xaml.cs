@@ -49,6 +49,7 @@ namespace lindexi.uwp.Clenjw.View
                 View.Up();
             }
 
+            
         }
     }
 }
