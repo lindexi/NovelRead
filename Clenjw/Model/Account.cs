@@ -34,6 +34,14 @@ namespace lindexi.uwp.Clenjw.Model
             get;
         }
 
+        public int Line
+        {
+            set;
+            get;
+        }
+
+
+
         //        if (File != null)
         //    {
 

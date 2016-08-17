@@ -44,6 +44,8 @@ namespace lindexi.uwp.Clenjw.ViewModel
             get;
         }
 
+        
+
         private async void Read()
         {
             var account = AccountGoverment.View;
@@ -61,9 +63,33 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 //  await account.File.File.OpenStreamForReadAsync()))
                 //{
                 await account.File.Read();
-                Progress();
+                //Progress();
+
+                if (account.Account.Font == 0)
+                {
+                    //AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile"
+                    account.Account.Font = 20;
+                }
+
+                if (account.Account.Line == 0)
+                {
+                    account.Account.Line = 10;
+                }
+
+                //int length = account.File.Str.Length - account.File.Poit;
+
+                //length = length > Np ? Np : length;
+
+                //if (length > 0)
+                //{
+                //    Str = account.File.Str.Substring(account.File.Poit, length);
+
+                //}
+
                 //}
             }
+            Progress();
+
         }
 
         public Visibility AccountVisibility
@@ -90,8 +116,25 @@ namespace lindexi.uwp.Clenjw.ViewModel
         public void Up()
         {
             NpClj();
+            
+
+            string str = AccountGoverment.View.File.Up(
+                (int) AccountGoverment.View.Account.Font,
+                AccountGoverment.View.Account.Line);
+            if (str == "")
+            {
+                return;
+            }
+            Str = str;
+            return;
+
             var account = AccountGoverment.View.File;
             int n = account.Poit - Np;
+
+            if (n < 0)
+            {
+                n = 0;
+            }
 
             if (account.Poit < 0)
             {
@@ -108,8 +151,19 @@ namespace lindexi.uwp.Clenjw.ViewModel
         public void Progress()
         {
             NpClj();
+
+            Str = AccountGoverment.View.File.Progress(
+                (int) AccountGoverment.View.Account.Font,
+                AccountGoverment.View.Account.Line);
+            return;
             var account = AccountGoverment.View.File;
             int n = account.Poit + Np;
+
+            if (n > account.Str.Length)
+            {
+                Str = "阅读完";
+                return;
+            }
 
             int length = account.Str.Length - account.Poit;
 

@@ -34,17 +34,25 @@ namespace lindexi.uwp.Clenjw.View
 
         private void UIElement_OnPointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            var temp = sender as TextBlock;
+            e.Handled = true;
+            var temp = sender as FrameworkElement;
             if (temp == null)
             {
+                //var grid = sender as Button;
+                
+                //foreach (var g in grid.Children)
+                //{
+                    
+                //}
                 return;
             }
             var n = e.GetCurrentPoint(temp).RawPosition;
-            if (n.X > temp.ActualWidth - temp.ActualWidth/10)
+            double length = temp.ActualWidth - temp.ActualWidth*0.3;
+            if (n.X > length)
             {
                 View.Progress();
             }
-            else if (n.X < temp.ActualWidth/10)
+            else if (n.X < temp.ActualWidth*0.3)
             {
                 View.Up();
             }

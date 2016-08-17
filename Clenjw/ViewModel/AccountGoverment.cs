@@ -169,8 +169,15 @@ namespace lindexi.uwp.Clenjw.ViewModel
             foreach (var temp in StorageApplicationPermissions.
                 FutureAccessList.Entries)
             {
-                folder.Add(await StorageApplicationPermissions.
-                    FutureAccessList.GetFileAsync(temp.Token));
+                try
+                {
+                    folder.Add(await StorageApplicationPermissions.
+                        FutureAccessList.GetFileAsync(temp.Token));
+                }
+                catch 
+                {
+                    
+                }
             }
 
             for (int i = 0; i < folder.Count; i++)
