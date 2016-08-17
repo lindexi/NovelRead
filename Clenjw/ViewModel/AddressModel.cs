@@ -80,7 +80,15 @@ namespace lindexi.uwp.Clenjw.ViewModel
 
         public void Maddress()
         {
-
+            for (int i = 0; i < AccountGoverment.View.Account.File.Count; i++)
+            {
+                if (AccountGoverment.View.Account.File[i].Check)
+                {
+                    AccountGoverment.View.Account.File.RemoveAt(i);
+                    i--;
+                }
+            }
+            //AccountGoverment.View.Account.File.RemoveAll(temp => temp.Check);
         }
     }
 }

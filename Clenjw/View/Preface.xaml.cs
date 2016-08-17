@@ -1,4 +1,7 @@
-﻿using System;
+﻿// lindexi
+// 21:33
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,18 +22,22 @@ using lindexi.uwp.Clenjw.ViewModel;
 namespace lindexi.uwp.Clenjw.View
 {
     /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
+    ///     可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     public sealed partial class Preface : Page
     {
         public Preface()
         {
-            View=new EaddressModel();
+            View = new EaddressModel();
             this.InitializeComponent();
             DataContext = View;
         }
 
-        private EaddressModel View { set; get; }
+        private EaddressModel View
+        {
+            set;
+            get;
+        }
 
         private void UIElement_OnPointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -38,12 +45,6 @@ namespace lindexi.uwp.Clenjw.View
             var temp = sender as FrameworkElement;
             if (temp == null)
             {
-                //var grid = sender as Button;
-                
-                //foreach (var g in grid.Children)
-                //{
-                    
-                //}
                 return;
             }
             var n = e.GetCurrentPoint(temp).RawPosition;
@@ -56,8 +57,6 @@ namespace lindexi.uwp.Clenjw.View
             {
                 View.Up();
             }
-
-            
         }
     }
 }

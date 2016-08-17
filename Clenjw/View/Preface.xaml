@@ -28,11 +28,10 @@
                        ></TextBlock>
         </ScrollViewer>-->
         <Grid Background="White" PointerPressed="UIElement_OnPointerPressed">
-            <Viewbox Margin="1,1,1,1"  Stretch="Fill">
-                <Grid Background="White"  PointerPressed="UIElement_OnPointerPressed">
-                    <Grid Width="100" Height="100" ></Grid>
-                    <TextBlock Text="{x:Bind View.Str,Mode=OneWay}" TextWrapping="Wrap"
-                       ></TextBlock>
+            <Viewbox Margin="1,1,1,1" Stretch="Fill">
+                <Grid Background="White" PointerPressed="UIElement_OnPointerPressed">
+                    <Grid Width="100" Height="100" />
+                    <TextBlock Text="{x:Bind View.Str,Mode=OneWay}" TextWrapping="Wrap" />
                 </Grid>
                 <!--<Button PointerPressed="UIElement_OnPointerPressed">
                    <Button.Content>
@@ -45,6 +44,10 @@
                </Button>-->
             </Viewbox>
         </Grid>
+        
+        <Grid>
+            
+        </Grid>
 
         <!--</Canvas>-->
         <!--<StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -53,6 +56,18 @@
         </StackPanel>-->
     </Grid>
 </Page>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

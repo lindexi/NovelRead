@@ -1,4 +1,7 @@
-﻿using System;
+﻿// lindexi
+// 21:33
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,68 +29,32 @@ namespace lindexi.uwp.Clenjw.Model
             }
         }
 
-        public bool Check { set; get; }
-
-        public int Poit { set; get; }
+        public bool Check
+        {
+            set;
+            get;
+        }
 
         [JsonIgnore]
-        public StorageFile File { set; get; }
-
-        [JsonIgnore]
-        public string Str { set; get; }
-
-        public string Name { set; get; }
+        public string Str
+        {
+            set;
+            get;
+        }
 
         public bool Equal(StorageFile file)
         {
             return File?.Path == file.Path;
         }
 
-        private List<string> Spilt(string str, int font)
-        {
-            //str = str.Replace("\r", "");
-            List<string> temp = new List<string>();
-            StringBuilder line = new StringBuilder(font);
-            int n = 0;
-            for (int i = 0; i < str.Length; i++)
-            {
-                line.Append(str[i]);
-                n++;
-                if (n >= font - 1)
-                {
-                    n = 0;
-                    temp.Add(line.ToString());
-                    line.Clear();
-                }
-                else if (str[i] == '\n')
-                {
-                    //if (n == 1 && temp.LastOrDefault() == "\n")
-                    //{
-                    //    n = 0;
-                    //    line.Clear();
-                    //}
-                    //else
-                    {
-                        n = 0;
-                        temp.Add(line.ToString());
-                        line.Clear();
-                    }
-
-                }
-            }
-
-            return temp;
-        }
-
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="font">一行字数</param>
         /// <param name="line">行数</param>
         /// <returns></returns>
         public string Progress(int font, int line)
         {
-            int length = font * line;
+            int length = font*line;
             if (Poit < 0)
             {
                 Poit = 0;
@@ -158,60 +125,13 @@ namespace lindexi.uwp.Clenjw.Model
             return Listr(str, font, line);
         }
 
-        private string Listr(List<string> str, int font, int line)
-        {
-            if (str.Count == 0)
-            {
-                return "";
-            }
-
-            StringBuilder temp = new StringBuilder();
-            //for (int i = 0; i < font; i++)
-            //{
-            //    temp.Append("0");
-            //}
-
-
-
-            //temp.Append("\n".PadLeft(font+font,'-'));
-            for (int i = 0; i < str.Count; i++)
-            {
-                //if (str[i] == "\r\n" || str[i] == "\n")
-                //{
-                //    temp.Append("|" + " ".PadLeft(font + font) + "|" + str[i].PadLeft(font + font));
-                //    //temp.Append(str[i]);
-                //}
-                //else
-                {
-                    temp.Append(str[i]);
-                }
-                if (!str[i].EndsWith("\n"))
-                {
-                    temp.Append("\n");
-                }
-            }
-
-            for (int i = 0; i < line - str.Count; i++)
-            {
-                temp.Insert(0, "\n");
-            }
-
-            return temp.ToString();
-        }
-
-        //private List<string> Split(string str)
-        //{
-        //    return str.Split('\n').ToList();
-        //}
-
         public string Up(int font, int line)
         {
-            int length = font * line;
+            int length = font*line;
             int n = Poit;
             if (n < length)
             {
                 length = n;
-                //n = length;
             }
 
             List<string> str = Spilt(Str.Substring(n - length, length), font);
@@ -261,22 +181,11 @@ namespace lindexi.uwp.Clenjw.Model
             return Listr(str, font, line);
         }
 
-        private string Sequence(string str)
-        {
-            StringBuilder temp = new StringBuilder(str.Length);
-            for (int i = str.Length - 1; i >= 0; i--)
-            {
-                temp.Append(str[i]);
-            }
-            return temp.ToString();
-        }
-
         public async Task Read()
         {
-
             try
             {
-                Str = await Windows.Storage.FileIO.ReadTextAsync(File);
+                Str = await FileIO.ReadTextAsync(File);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -290,6 +199,91 @@ namespace lindexi.uwp.Clenjw.Model
             }
         }
 
+        private List<string> Spilt(string str, int font)
+        {
+            //str = str.Replace("\r", "");
+            List<string> temp = new List<string>();
+            StringBuilder line = new StringBuilder(font);
+            int n = 0;
+            for (int i = 0; i < str.Length; i++)
+            {
+                line.Append(str[i]);
+                n++;
+                if (n >= font - 1)
+                {
+                    n = 0;
+                    temp.Add(line.ToString());
+                    line.Clear();
+                }
+                else if (str[i] == '\n')
+                {
+                    //if (n == 1 && temp.LastOrDefault() == "\n")
+                    //{
+                    //    n = 0;
+                    //    line.Clear();
+                    //}
+                    //else
+                    {
+                        n = 0;
+                        temp.Add(line.ToString());
+                        line.Clear();
+                    }
+                }
+            }
+
+            return temp;
+        }
+
+        private string Listr(List<string> str, int font, int line)
+        {
+            if (str.Count == 0)
+            {
+                return "";
+            }
+
+            StringBuilder temp = new StringBuilder();
+            //for (int i = 0; i < font; i++)
+            //{
+            //    temp.Append("0");
+            //}
+
+
+            //temp.Append("\n".PadLeft(font+font,'-'));
+            for (int i = 0; i < str.Count; i++)
+            {
+                //if (str[i] == "\r\n" || str[i] == "\n")
+                //{
+                //    temp.Append("|" + " ".PadLeft(font + font) + "|" + str[i].PadLeft(font + font));
+                //    //temp.Append(str[i]);
+                //}
+                //else
+                {
+                    temp.Append(str[i]);
+                }
+                if (!str[i].EndsWith("\n"))
+                {
+                    temp.Append("\n");
+                }
+            }
+
+            for (int i = 0; i < line - str.Count; i++)
+            {
+                temp.Insert(0, "\n");
+            }
+
+            return temp.ToString();
+        }
+
+        private string Sequence(string str)
+        {
+            StringBuilder temp = new StringBuilder(str.Length);
+            for (int i = str.Length - 1; i >= 0; i--)
+            {
+                temp.Append(str[i]);
+            }
+            return temp.ToString();
+        }
+
         private static Encoding AutoEncoding(byte[] bom)
         {
             if (bom.Length != 4)
@@ -297,12 +291,46 @@ namespace lindexi.uwp.Clenjw.Model
                 throw new ArgumentException();
             }
             // Analyze the BOM
-            if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) return Encoding.UTF7;
-            if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) return Encoding.UTF8;
-            if (bom[0] == 0xff && bom[1] == 0xfe) return Encoding.Unicode; //UTF-16LE
-            if (bom[0] == 0xfe && bom[1] == 0xff) return Encoding.BigEndianUnicode; //UTF-16BE
-            if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff) return Encoding.UTF32;
+            if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76)
+            {
+                return Encoding.UTF7;
+            }
+            if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf)
+            {
+                return Encoding.UTF8;
+            }
+            if (bom[0] == 0xff && bom[1] == 0xfe)
+            {
+                return Encoding.Unicode; //UTF-16LE
+            }
+            if (bom[0] == 0xfe && bom[1] == 0xff)
+            {
+                return Encoding.BigEndianUnicode; //UTF-16BE
+            }
+            if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff)
+            {
+                return Encoding.UTF32;
+            }
             return Encoding.ASCII;
+        }
+
+        public int Poit
+        {
+            set;
+            get;
+        }
+
+        [JsonIgnore]
+        public StorageFile File
+        {
+            set;
+            get;
+        }
+
+        public string Name
+        {
+            set;
+            get;
         }
     }
 }

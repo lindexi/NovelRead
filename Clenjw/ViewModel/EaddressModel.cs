@@ -14,7 +14,7 @@ namespace lindexi.uwp.Clenjw.ViewModel
         public EaddressModel()
         {
             Read();
-            Np = 1000;
+            //Np = 1000;
         }
 
         private string _str;
@@ -55,19 +55,12 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 return;
             }
 
-
-            //Stream temp = await account.File.File.OpenStreamForReadAsync();
             if (string.IsNullOrEmpty(account.File.Str))
             {
-                //using (StreamReader stream = new StreamReader(
-                //  await account.File.File.OpenStreamForReadAsync()))
-                //{
                 await account.File.Read();
-                //Progress();
 
                 if (account.Account.Font == 0)
                 {
-                    //AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile"
                     account.Account.Font = 20;
                 }
 
@@ -75,18 +68,6 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 {
                     account.Account.Line = 10;
                 }
-
-                //int length = account.File.Str.Length - account.File.Poit;
-
-                //length = length > Np ? Np : length;
-
-                //if (length > 0)
-                //{
-                //    Str = account.File.Str.Substring(account.File.Poit, length);
-
-                //}
-
-                //}
             }
             Progress();
 
@@ -107,11 +88,11 @@ namespace lindexi.uwp.Clenjw.ViewModel
 
         private Visibility _accountVisibility;
 
-        private int Np
-        {
-            set;
-            get;
-        }
+        //private int Np
+        //{
+        //    set;
+        //    get;
+        //}
 
         public void Up()
         {
@@ -126,25 +107,6 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 return;
             }
             Str = str;
-            return;
-
-            var account = AccountGoverment.View.File;
-            int n = account.Poit - Np;
-
-            if (n < 0)
-            {
-                n = 0;
-            }
-
-            if (account.Poit < 0)
-            {
-                account.Poit = 0;
-            }
-
-            int length = account.Str.Length - account.Poit;
-            length = length > Np ? Np : length;
-            Str = account.Str.Substring(n, length);
-            account.Poit = n;
         }
 
 
@@ -155,31 +117,11 @@ namespace lindexi.uwp.Clenjw.ViewModel
             Str = AccountGoverment.View.File.Progress(
                 (int) AccountGoverment.View.Account.Font,
                 AccountGoverment.View.Account.Line);
-            return;
-            var account = AccountGoverment.View.File;
-            int n = account.Poit + Np;
-
-            if (n > account.Str.Length)
-            {
-                Str = "阅读完";
-                return;
-            }
-
-            int length = account.Str.Length - account.Poit;
-
-            length = length > Np ? Np : length;
-            if (length > 0)
-            {
-                Str = account.Str.Substring(n, length);
-
-                account.Poit = n;
-            }
         }
 
         private void NpClj()
         {
             Width = Window.Current.Bounds.Width;
-
         }
 
     }
