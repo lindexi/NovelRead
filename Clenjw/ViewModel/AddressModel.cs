@@ -67,15 +67,28 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 //不存在
                 if (File.All(temp => !temp.Equal(file)))
                 {
-                    var account = new FileClen(file);
-                    AccountGoverment.View.Account.File.Add(account);
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                     () =>
-                     {
-                         File.Add(account);
-                     });
+                    await OpenAccountCleDisp(file);
                 }
             }
+        }
+
+        public async Task OpenAccountCleDisp(StorageFile file)
+        {
+            var account = new FileClen(file);
+          
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+             () =>
+             {
+                 if (File.All(temp => !temp.Equal(file)))
+                 {
+                     AccountGoverment.View.Account.File.Add(account);
+                     File.Add(account);
+                 }
+                 AccountGoverment.View.File = account;
+                 AccountGoverment.View.NagitavePreface();
+             });
+           
+
         }
 
         public void Maddress()
@@ -85,6 +98,15 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 if (AccountGoverment.View.Account.File[i].Check)
                 {
                     AccountGoverment.View.Account.File.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            for (int i = 0; i < File.Count; i++)
+            {
+                if (File[i].Check)
+                {
+                    File.RemoveAt(i);
                     i--;
                 }
             }

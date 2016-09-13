@@ -7,6 +7,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,6 +16,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using lindexi.uwp.Clenjw;
+using lindexi.uwp.Clenjw.Model;
+using lindexi.uwp.Clenjw.View;
 using lindexi.uwp.Clenjw.ViewModel;
 
 namespace Clenjw
@@ -31,7 +36,50 @@ namespace Clenjw
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            EnteredBackground += App_EnteredBackground;
+            LeavingBackground += App_LeavingBackground;
+
+            MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
+            
         }
+
+        private void MemoryManager_AppMemoryUsageIncreased(object sender, object e)
+        {
+            if (MemoryManager.AppMemoryUsageLevel >= AppMemoryUsageLevel.High)
+            {
+                var account = AccountGoverment.View.Account;
+                if (account != null)
+                {
+                    foreach (var temp in account.File.Where(temp => temp != AccountGoverment.View.File))
+                    {
+                        temp.Str = null;
+                    }
+                }
+            }
+        }
+
+        private void App_LeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            //应用离开后台
+            _areBackground = false;
+        }
+
+        private void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            //应用进入后台
+            _areBackground = true;
+            var account = AccountGoverment.View.Account;
+            if (account != null)
+            {
+                foreach (var temp in account.File.Where(temp => temp != AccountGoverment.View.File))
+                {
+                    temp.Str = null;
+                }
+            }
+        }
+
+        private bool _areBackground;
 
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
@@ -78,6 +126,25 @@ namespace Clenjw
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
+        }
+
+        protected override void OnFileActivated(FileActivatedEventArgs args)
+        {
+            if (args.Files.Count == 0)
+            {
+                return;
+
+            }
+            Frame frame = Window.Current.Content as Frame;
+            if (frame == null)
+            {
+                frame = new Frame();
+                Window.Current.Content = frame;
+            }
+
+            var file = args.Files[0] as StorageFile;
+            frame.Navigate(typeof(MainPage), file);
+            Window.Current.Activate();
         }
 
         /// <summary>

@@ -26,7 +26,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <CheckBox IsChecked="{Binding Check}" Content=""></CheckBox>
+                            <CheckBox IsChecked="{Binding Check,Mode=TwoWay}" Content=""></CheckBox>
                             <TextBlock Text="{Binding Name}" Margin="30,10,1,1"></TextBlock>
                         </Grid>
                     </DataTemplate>

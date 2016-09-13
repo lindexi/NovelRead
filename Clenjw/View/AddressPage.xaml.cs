@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,8 +28,20 @@ namespace lindexi.uwp.Clenjw.View
     {
         public AddressPage()
         {
-            View=new AddressModel();
             this.InitializeComponent();
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            View = new AddressModel();
+            StorageFile file = e.Parameter as StorageFile;
+            if (file != null)
+            {
+                await AccountGoverment.View.Read();
+                await View.OpenAccountCleDisp(file);
+
+            }
+            base.OnNavigatedTo(e);
         }
 
         private AddressModel View { set; get; }

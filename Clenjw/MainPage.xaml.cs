@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using lindexi.uwp.Clenjw.View;
 using lindexi.uwp.Clenjw.ViewModel;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
@@ -20,7 +21,7 @@ namespace lindexi.uwp.Clenjw
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            View.NagitaveAddress();
+            frame.Navigate(typeof(AddressPage),e.Parameter);
         }
 
         private AccountGoverment View { set; get; }

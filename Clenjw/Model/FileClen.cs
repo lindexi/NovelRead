@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using lindexi.uwp.Clenjw.ViewModel;
 using Newtonsoft.Json;
 
 namespace lindexi.uwp.Clenjw.Model
