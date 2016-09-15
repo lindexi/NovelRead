@@ -37,8 +37,8 @@ namespace Clenjw
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            EnteredBackground += App_EnteredBackground;
-            LeavingBackground += App_LeavingBackground;
+            //EnteredBackground += App_EnteredBackground;
+            //LeavingBackground += App_LeavingBackground;
 
             MemoryManager.AppMemoryUsageIncreased += MemoryManager_AppMemoryUsageIncreased;
             
