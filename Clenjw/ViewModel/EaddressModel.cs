@@ -97,7 +97,6 @@ namespace lindexi.uwp.Clenjw.ViewModel
         public void Up()
         {
             NpClj();
-            
 
             string str = AccountGoverment.View.File.Up(
                 (int) AccountGoverment.View.Account.Font,
@@ -114,9 +113,14 @@ namespace lindexi.uwp.Clenjw.ViewModel
         {
             NpClj();
 
-            Str = AccountGoverment.View.File.Progress(
+            string str = AccountGoverment.View.File.Progress(
                 (int) AccountGoverment.View.Account.Font,
                 AccountGoverment.View.Account.Line);
+            if (string.IsNullOrEmpty(str))
+            {
+                return;
+            }
+            Str = str;
         }
 
         private void NpClj()

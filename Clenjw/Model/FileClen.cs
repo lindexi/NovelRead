@@ -133,6 +133,10 @@ namespace lindexi.uwp.Clenjw.Model
             if (n < length)
             {
                 length = n;
+                if (n == 0)
+                {
+                    return "";
+                }
             }
 
             List<string> str = Spilt(Str.Substring(n - length, length), font);
@@ -202,6 +206,10 @@ namespace lindexi.uwp.Clenjw.Model
 
         private List<string> Spilt(string str, int font)
         {
+            if (string.IsNullOrEmpty(str))
+            {
+                return new List<string>();
+            }
             //str = str.Replace("\r", "");
             List<string> temp = new List<string>();
             StringBuilder line = new StringBuilder(font);
@@ -232,6 +240,8 @@ namespace lindexi.uwp.Clenjw.Model
                 }
             }
 
+            temp.Add(line.ToString());
+
             return temp;
         }
 
@@ -258,20 +268,26 @@ namespace lindexi.uwp.Clenjw.Model
                 //    //temp.Append(str[i]);
                 //}
                 //else
+
+                temp.Append(str[i].Replace("\r", "").Replace("\n", "").PadRight(font,(char)21) + "\n");
                 {
-                    temp.Append(str[i]);
+                    //temp.Append(str[i]);
                 }
-                if (!str[i].EndsWith("\n"))
-                {
-                    temp.Append("\n");
-                }
+                //if (!str[i].EndsWith("\n"))
+                //{
+                //    temp.Append("\n");
+                //}
             }
 
             for (int i = 0; i < line - str.Count; i++)
             {
-                temp.Insert(0, "\n");
+                temp.Insert(0,"".PadRight(font)+ "\n");
             }
-
+            //for (int i = 0; i < font; i++)
+            //{
+            //    temp.Append("--");
+            //}
+            //temp.Append("\n");
             return temp.ToString();
         }
 
