@@ -6,10 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using lindexi.uwp.Clenjw.ViewModel;
 using Newtonsoft.Json;
 
 namespace lindexi.uwp.Clenjw.Model
@@ -23,7 +21,7 @@ namespace lindexi.uwp.Clenjw.Model
         public FileClen(StorageFile file)
         {
             File = file;
-            int n = file.Name.LastIndexOf(".");
+            var n = file.Name.LastIndexOf(".");
             if (n >= 0)
             {
                 Name = file.Name.Substring(0, n);
@@ -55,7 +53,7 @@ namespace lindexi.uwp.Clenjw.Model
         /// <returns></returns>
         public string Progress(int font, int line)
         {
-            int length = font*line;
+            var length = font*line;
             if (Poit < 0)
             {
                 Poit = 0;
@@ -65,12 +63,12 @@ namespace lindexi.uwp.Clenjw.Model
                 length = Str.Length - Poit;
             }
 
-            List<string> str = Spilt(Str.Substring(Poit, length), font);
+            var str = Spilt(Str.Substring(Poit, length), font);
             while (str.Count > line)
             {
                 str.RemoveAt(str.Count - 1);
             }
-            int n = str.Sum(temp => temp.Length);
+            var n = str.Sum(temp => temp.Length);
             Poit += n;
 
             //List<string> str=new List<string>();
@@ -128,8 +126,8 @@ namespace lindexi.uwp.Clenjw.Model
 
         public string Up(int font, int line)
         {
-            int length = font*line;
-            int n = Poit;
+            var length = font*line;
+            var n = Poit;
             if (n < length)
             {
                 length = n;
@@ -139,7 +137,7 @@ namespace lindexi.uwp.Clenjw.Model
                 }
             }
 
-            List<string> str = Spilt(Str.Substring(n - length, length), font);
+            var str = Spilt(Str.Substring(n - length, length), font);
             while (str.Count > line)
             {
                 str.RemoveAt(0);
@@ -194,12 +192,12 @@ namespace lindexi.uwp.Clenjw.Model
             }
             catch (ArgumentOutOfRangeException)
             {
-                IBuffer buffer = await FileIO.ReadBufferAsync(File);
-                DataReader reader = DataReader.FromBuffer(buffer);
-                byte[] fileContent = new byte[reader.UnconsumedBufferLength];
+                var buffer = await FileIO.ReadBufferAsync(File);
+                var reader = DataReader.FromBuffer(buffer);
+                var fileContent = new byte[reader.UnconsumedBufferLength];
                 reader.ReadBytes(fileContent);
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                Encoding gbk = Encoding.GetEncoding("GBK");
+                var gbk = Encoding.GetEncoding("GBK");
                 Str = gbk.GetString(fileContent);
             }
         }
@@ -211,10 +209,10 @@ namespace lindexi.uwp.Clenjw.Model
                 return new List<string>();
             }
             //str = str.Replace("\r", "");
-            List<string> temp = new List<string>();
-            StringBuilder line = new StringBuilder(font);
-            int n = 0;
-            for (int i = 0; i < str.Length; i++)
+            var temp = new List<string>();
+            var line = new StringBuilder(font);
+            var n = 0;
+            for (var i = 0; i < str.Length; i++)
             {
                 line.Append(str[i]);
                 n++;
@@ -252,7 +250,7 @@ namespace lindexi.uwp.Clenjw.Model
                 return "";
             }
 
-            StringBuilder temp = new StringBuilder();
+            var temp = new StringBuilder();
             //for (int i = 0; i < font; i++)
             //{
             //    temp.Append("0");
@@ -260,7 +258,7 @@ namespace lindexi.uwp.Clenjw.Model
 
 
             //temp.Append("\n".PadLeft(font+font,'-'));
-            for (int i = 0; i < str.Count; i++)
+            for (var i = 0; i < str.Count; i++)
             {
                 //if (str[i] == "\r\n" || str[i] == "\n")
                 //{
@@ -269,7 +267,7 @@ namespace lindexi.uwp.Clenjw.Model
                 //}
                 //else
 
-                temp.Append(str[i].Replace("\r", "").Replace("\n", "").PadRight(font,(char)21) + "\n");
+                temp.Append(str[i].Replace("\r", "").Replace("\n", "").PadRight(font, (char) 21) + "\n");
                 {
                     //temp.Append(str[i]);
                 }
@@ -279,9 +277,9 @@ namespace lindexi.uwp.Clenjw.Model
                 //}
             }
 
-            for (int i = 0; i < line - str.Count; i++)
+            for (var i = 0; i < line - str.Count; i++)
             {
-                temp.Insert(0,"".PadRight(font)+ "\n");
+                temp.Insert(0, "".PadRight(font) + "\n");
             }
             //for (int i = 0; i < font; i++)
             //{
@@ -293,8 +291,8 @@ namespace lindexi.uwp.Clenjw.Model
 
         private string Sequence(string str)
         {
-            StringBuilder temp = new StringBuilder(str.Length);
-            for (int i = str.Length - 1; i >= 0; i--)
+            var temp = new StringBuilder(str.Length);
+            for (var i = str.Length - 1; i >= 0; i--)
             {
                 temp.Append(str[i]);
             }
@@ -308,23 +306,23 @@ namespace lindexi.uwp.Clenjw.Model
                 throw new ArgumentException();
             }
             // Analyze the BOM
-            if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76)
+            if ((bom[0] == 0x2b) && (bom[1] == 0x2f) && (bom[2] == 0x76))
             {
                 return Encoding.UTF7;
             }
-            if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf)
+            if ((bom[0] == 0xef) && (bom[1] == 0xbb) && (bom[2] == 0xbf))
             {
                 return Encoding.UTF8;
             }
-            if (bom[0] == 0xff && bom[1] == 0xfe)
+            if ((bom[0] == 0xff) && (bom[1] == 0xfe))
             {
                 return Encoding.Unicode; //UTF-16LE
             }
-            if (bom[0] == 0xfe && bom[1] == 0xff)
+            if ((bom[0] == 0xfe) && (bom[1] == 0xff))
             {
                 return Encoding.BigEndianUnicode; //UTF-16BE
             }
-            if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff)
+            if ((bom[0] == 0) && (bom[1] == 0) && (bom[2] == 0xfe) && (bom[3] == 0xff))
             {
                 return Encoding.UTF32;
             }
