@@ -14,14 +14,15 @@ namespace lindexi.uwp.Clenjw
     {
         public MainPage()
         {
-            View =AccountGoverment.View;
+            View = AccountGoverment.View;
             this.InitializeComponent();
-            View.Frame = frame;
+            View.Content = frame;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            frame.Navigate(typeof(AddressPage),e.Parameter);
+            //frame.Navigate(typeof(AddressPage),e.Parameter);
+            View.NavigatedTo(this, e);
         }
 
         private AccountGoverment View { set; get; }

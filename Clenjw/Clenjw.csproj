@@ -193,6 +193,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\..\..\uwp\uwp\src\Framework\Framework\Framework.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

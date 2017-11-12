@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -13,11 +14,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using lindexi.uwp.Clenjw.Model;
 using lindexi.uwp.Clenjw.View;
+using lindexi.uwp.Framework.ViewModel;
 using Newtonsoft.Json;
+using Account = lindexi.uwp.Clenjw.Model.Account;
 
 namespace lindexi.uwp.Clenjw.ViewModel
 {
-    public class AccountGoverment
+    public class AccountGoverment : NavigateViewModel
     {
         public AccountGoverment()
         {
@@ -48,25 +51,20 @@ namespace lindexi.uwp.Clenjw.ViewModel
             }
         }
 
-        public Frame Frame
-        {
-            set;
-            get;
-        }
-
         public void NagitaveAddress()
         {
-            Frame?.Navigate(typeof(AddressPage));
+            Content?.Navigate(typeof(AddressPage));
         }
 
         public void NagitavePreface()
         {
-            Frame?.Navigate(typeof(Preface));
+            Content?.Navigate(typeof(Preface));
         }
 
         public async Task Read()
         {
             string str = "App";
+            await Task.Delay(100);
             if (Account != null)
             {
                 return;
@@ -164,33 +162,47 @@ namespace lindexi.uwp.Clenjw.ViewModel
 
         private async Task<List<StorageFile>> FileStorageApplicationPermiss()
         {
-            var folder = new List<StorageFile>();
+            List<StorageFile> f = await Task.Run(async () =>
+              {
+                  var folder = new List<StorageFile>();
 
-            foreach (var temp in StorageApplicationPermissions.
-                FutureAccessList.Entries)
-            {
-                try
-                {
-                    folder.Add(await StorageApplicationPermissions.
-                        FutureAccessList.GetFileAsync(temp.Token));
-                }
-                catch 
-                {
-                    
-                }
-            }
+                  try
+                  {
+                      foreach (var temp in StorageApplicationPermissions.
+                          FutureAccessList.Entries)
+                      {
+                          try
+                          {
+                              var t = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(temp.Token);
+                              if (StorageApplicationPermissions.FutureAccessList.CheckAccess(t))
+                                  folder.Add(t);
+                          }
+                          catch
+                          {
 
-            for (int i = 0; i < folder.Count; i++)
-            {
-                //FileInfo temp = new FileInfo(folder[i].Path);
-                //if (!temp.Exists)
-                //{
-                //    folder.RemoveAt(i);
-                //    i--;
-                //}
-            }
+                          }
+                      }
+                  }
+                  catch (Exception e)
+                  {
 
-            return folder;
+
+                  }
+
+                  for (int i = 0; i < folder.Count; i++)
+                  {
+                     //FileInfo temp = new FileInfo(folder[i].Path);
+                     //if (!temp.Exists)
+                     //{
+                     //    folder.RemoveAt(i);
+                     //    i--;
+                     //}
+                 }
+
+                  return folder;
+              });
+
+            return f;
         }
 
         private async Task<T> FileJson<T>(IStorageFile file)
@@ -206,5 +218,20 @@ namespace lindexi.uwp.Clenjw.ViewModel
         }
 
         private static AccountGoverment _accountGoverment;
+
+        public override void OnNavigatedFrom(object sender, object obj)
+        {
+
+        }
+
+        public override async void OnNavigatedTo(object sender, object obj)
+        {
+            CombineViewModel(Application.Current.GetType().GetTypeInfo().Assembly);
+            AllAssemblyComposite(Application.Current.GetType().GetTypeInfo().Assembly);
+
+            await Read();
+
+            Navigate(typeof(EaddressModel), obj);
+        }
     }
 }

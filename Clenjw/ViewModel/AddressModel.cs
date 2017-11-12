@@ -13,11 +13,12 @@ using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using lindexi.uwp.Clenjw.Model;
+using lindexi.uwp.Framework.ViewModel;
 using Newtonsoft.Json;
 
 namespace lindexi.uwp.Clenjw.ViewModel
 {
-    public class AddressModel
+    public class AddressModel:ViewModelMessage
     {
         public AddressModel()
         {
@@ -111,6 +112,16 @@ namespace lindexi.uwp.Clenjw.ViewModel
                 }
             }
             //AccountGoverment.View.Account.File.RemoveAll(temp => temp.Check);
+        }
+
+        public override void OnNavigatedFrom(object sender, object obj)
+        {
+            
+        }
+
+        public override void OnNavigatedTo(object sender, object obj)
+        {
+          
         }
     }
 }

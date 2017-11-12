@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using lindexi.uwp.Clenjw.Model;
+using lindexi.uwp.Framework.ViewModel;
 
 namespace lindexi.uwp.Clenjw.ViewModel
 {
-    public class EaddressModel : NotifyProperty
+    public class EaddressModel : ViewModelMessage
     {
         public EaddressModel()
         {
@@ -125,8 +126,18 @@ namespace lindexi.uwp.Clenjw.ViewModel
 
         private void NpClj()
         {
+            //计算宽度
             Width = Window.Current.Bounds.Width;
         }
 
+        public override void OnNavigatedFrom(object sender, object obj)
+        {
+            
+        }
+
+        public override void OnNavigatedTo(object sender, object obj)
+        {
+            
+        }
     }
 }
